@@ -1,0 +1,42 @@
+{
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended", "standard", "prettier"],
+  "globals": {
+    "use": true,
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "plugins": ["prettier", "standard"],
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "quotes": [
+      2,
+      "single",
+      { "allowTemplateLiterals": true, "avoidEscape": true }
+    ],
+    "semi": ["error", "never"],
+    "no-unexpected-multiline": "error",
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }],
+    "object-curly-spacing": ["error", "always", { "objectsInObjects": true }],
+    "indent": ["error", 2, { "ArrayExpression": 1 }],
+    "array-bracket-newline": ["error", "consistent"],
+    "dot-location": ["error", "property"],
+    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
+    "no-unused-vars": ["error", { "caughtErrors": "all" }],
+    "no-useless-return": 0,
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "always",
+        "asyncArrow": "always"
+      }
+    ]
+  }
+}
