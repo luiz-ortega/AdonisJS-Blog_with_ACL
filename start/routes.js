@@ -11,6 +11,6 @@ Route.resource('posts', 'PostController')
   .apiOnly()
   .middleware('auth')
 
-Route.resource('permission', 'PermissionController')
+Route.resource('permissions', 'PermissionController')
   .apiOnly()
   .middleware('auth')
