@@ -3,28 +3,49 @@
 const Post = use('App/Models/Post')
 
 class PostController {
-  async index({ request, response, view }) {
+  async index({ request, auth }) {
+    const user = await auth.getUser()
+
+    if (await user.can('read_private_posts')) {
+      const posts = await Post.query()
+        .with('user')
+        .fetch()
+
+      return posts
+    }
     const posts = await Post.query()
-      .with('user')
+      .where({ type: 'public' })
       .fetch()
 
     return posts
   }
 
   async store({ request, response, auth }) {
-    const data = request.only(['title', 'body'])
+    const data = request.only(['title', 'body', 'type'])
 
     const post = await Post.create({ ...data, user_id: auth.user.id })
 
     return post
   }
 
-  async show({ params }) {
+  async show({ params, auth, response }) {
     const post = await Post.findOrFail(params.id)
 
-    await post.load('user')
+    if (post.type === 'public') {
+      return post
+    }
 
-    return post
+    const user = await auth.getUser()
+
+    if (await user.can('read_private_posts')) {
+      return post
+    }
+
+    return response.status(400).send({
+      error: {
+        message: 'Você não tem permissão de leitura.'
+      }
+    })
   }
 
   async update({ params, request }) {
